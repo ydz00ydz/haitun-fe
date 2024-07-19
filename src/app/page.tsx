@@ -15,7 +15,8 @@ export default function Home() {
         高效、安全、包更新
       </div>
       <div className="flex items-center justify-center mt-16">
-        <span>©2024 海豚电商工具</span> <a href="https://beian.mps.gov.cn/#/" target="_blank" rel="noopener noreferrer">沪ICP备20017523号-1</a>
+        <span className="mr-2">©2024 海豚电商工具</span> 
+        <a href="https://beian.mps.gov.cn/#/" target="_blank" rel="noopener noreferrer">沪ICP备20017523号-1</a>
       </div>
     </main>
   );
