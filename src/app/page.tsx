@@ -7,13 +7,13 @@ export default function Home() {
       <h3 className="text-4xl font-bold p-4">海豚电商工具</h3>
       <p>电商人必备的效率工具</p>
       <div className="flex flex-wrap justify-center mt-16 gap-16">
-        <a href="#" className="h-auto rounded-[24px] py-4 px-8 mt-8 text-white bg-green-500 ">
+        <a href="./haitun.crx" className="h-auto rounded-[24px] py-4 px-8 mt-8 text-white bg-green-500 ">
           免费试用
         </a>
         {/* <a href="./account" className="h-auto rounded-[24px] py-4 px-8 mt-8 text-white bg-green-500 ">免费试用</a> */}
-        <Link className="h-auto rounded-[24px] py-4 px-8 mt-8 text-white bg-yellow-500 " href="./account">
+        {/* <Link className="h-auto rounded-[24px] py-4 px-8 mt-8 text-white bg-yellow-500 " href="./account">
           登录注册
-        </Link>
+        </Link> */}
       </div>
       <div className="flex flex-wrap justify-center mt-16 h-12">高效、安全、包更新</div>
       <div className="flex items-center justify-center mt-16">
