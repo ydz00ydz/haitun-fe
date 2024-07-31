@@ -4,8 +4,15 @@ import Link from "next/link";
 export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center p-24">
-      <h3 className="text-4xl font-bold p-4">海豚电商工具</h3>
-      <p>电商人必备的效率工具</p>
+      <h3 className="text-3xl font-bold p-4">海豚电商工具</h3>
+      <div className="w-120 leading-12 text-lg my-8" >
+        <p className="mt-2">🎉 <span className="font-bold">海豚导单</span>-拼多多商家自发货必备的效率工具</p>
+        <p className="mt-2">海豚导单是一个浏览器插件，可以将页面上你能看到的订单信息导出成csv表格</p>
+        <p className="mt-2">目前插件只能导出单页订单，多页订单需要手动翻页再导出。</p>
+        <p className="mt-2">🚨 自动解锁功能可能触发风控，请悉知！</p>
+        <p className="mt-2">👀 只能获取网页上显示的隐私手机号，无法获取真实手机号。</p>
+        <p className="mt-2 font-bold">🛡️ 高效、安全、包更新 🛡️</p>
+      </div>
       <div className="flex flex-wrap justify-center mt-16 gap-16">
         <a href="/download/haitun.zip" className="h-auto rounded-[24px] py-4 px-8 mt-8 text-white bg-green-500 ">
           免费试用
