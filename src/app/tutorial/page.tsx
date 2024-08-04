@@ -6,6 +6,7 @@ const InstallPage: React.FC = (props) => {
       <div className="px-16 w-3/4 flex flex-col justify-center leading-loose">
         <p className="text-3xl font-bold text-center mb-8">海豚导单使用教程</p>
         <p></p>
+        <p>若插件还没安装，详见 <a className="px-4 py-1 rounded-[4px] text-white bg-yellow-500" href="/install">安装指南</a> 先安装插件。</p>
         <p>1️⃣ 安装成功后，最好把插件固定在浏览器的工具栏上，方便随时使用。</p>
         <img src="/img/dc-0.png" alt="插件固定到工具栏" className="w-1/3 my-4" />
         <p>2️⃣ 插件使用时必须先进入到拼多多商家后台的待发货页面</p>

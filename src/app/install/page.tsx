@@ -23,6 +23,8 @@ const InstallPage: React.FC = (props) => {
         <p> 如果该插件需要特殊的权限，你需要在弹出的窗口中确认授权。此时插件已经成功安装了</p>
         <p>⚠️ 如果你之前已经安装过该插件，可能需要先将其卸载，然后再按照上述步骤重新安装</p>
         <p>好了，现在你应该已经成功地安装了 Chrome 或 Edge 的插件了！🎉</p>
+        <p>下一步就可以开始使用海豚导单进行订单批量导出了，
+          详见 <a className="px-4 py-1 rounded-[4px] text-white bg-red-500" href="/tutorial">导出教程</a></p>
         <p>如果还有其他问题，欢迎随时联系我😊</p>
       </div>
     </div>
