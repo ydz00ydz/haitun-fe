@@ -2,8 +2,8 @@ import React, { lazy, Suspense } from "react";
 
 const InstallPage: React.FC = (props) => {
   return (
-    <div className="flex flex-col justify-center items-center h-full p-16">
-      <div className="px-16 w-3/4 flex flex-col justify-center leading-loose">
+    <div className="w-100 leading-12 flex flex-col justify-center items-center h-full p-16">
+      <div className="px-2 flex flex-col justify-center leading-loose">
         <p className="text-3xl font-bold text-center mb-8">海豚导单安装教程</p>
         <p>以下是安装 Chrome 或 Edge 的插件的简单指南，咱们一起来搞定它吧！💪</p>
         <p>1️⃣ 首先，你需要下载插件的离线安装文件 haitun.zip，解压成文件包</p>
