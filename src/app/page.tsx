@@ -14,7 +14,7 @@ export default function Home() {
         <p className="mt-2 font-bold">🛡️ 高效、安全、包更新 🛡️</p>
       </div>
       <div className="flex flex-wrap justify-center mt-16 gap-16">
-        <a href="/download/haitun.zip" className="h-auto rounded-[24px] py-4 px-8 mt-8 text-white bg-green-500 ">
+        <a href={`/download/haitun.zip?${new Date().getTime()}`} className="h-auto rounded-[24px] py-4 px-8 mt-8 text-white bg-green-500 ">
           下载试用
         </a>
         
