@@ -1,0 +1,16 @@
+.main-container {
+    width: 100%; /* 默认宽度为100% */
+    margin: 0 auto;
+}
+
+@media (min-width: 800px) {
+    .main-container {
+        width: 850%; /* 当页面宽度大于800px时，主体内容宽度为2/3 */
+    }
+}
+
+@media (min-width: 1200px) {
+    .main-container {
+        width: 70%; /* 当页面宽度大于1200px时，主体内容宽度为50% */
+    }
+}

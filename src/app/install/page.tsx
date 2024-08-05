@@ -1,13 +1,26 @@
+import BilibiliVideo from "@/component/BilibiliPlayer";
 import React, { lazy, Suspense } from "react";
+import "./index.css";
 
 const InstallPage: React.FC = (props) => {
   return (
-    <div className="w-100 leading-12 flex flex-col justify-center items-center h-full p-16">
+    <div className="main-container first-letter:leading-12 flex flex-col justify-center items-center h-full">
       <div className="px-2 flex flex-col justify-center leading-loose">
-        <p className="text-3xl font-bold text-center mb-8">海豚导单安装教程</p>
-        <p>以下是安装 Chrome 或 Edge 的插件的简单指南，咱们一起来搞定它吧！💪</p>
+        <p className="text-3xl font-bold text-center my-8">海豚导单安装教程</p>
+
+        <p className="text-xl font-bold mb-4">
+          🚩<span className="text-red-500">360浏览器</span>安装视频教程
+        </p>
+        <BilibiliVideo bvid="BV1HSYFeLEjJ" />
+
+        <p className="text-xl font-bold mb-4 mt-8">
+          🚩<span className="text-red-500">Chrome、Edge浏览器</span>安装图文教程
+        </p>
         <p>1️⃣ 首先，你需要下载插件的离线安装文件 haitun.zip，解压成文件包</p>
-        <a href={`/download/haitun.zip?${new Date().getTime()}`} className="h-12 rounded-[12px] py-2 px-8 my-4 mx-auto text-white bg-green-500 max-w-60 align-center">
+        <a
+          href={`/download/haitun.zip?${new Date().getTime()}`}
+          className="h-12 rounded-[12px] py-2 px-8 my-4 mx-auto text-white bg-green-500 max-w-60 align-center"
+        >
           下载插件
         </a>
         <p>2️⃣ 压缩包解压成文件夹</p>

@@ -1,10 +1,11 @@
 import React, { lazy, Suspense } from "react";
+import "./index.css";
 
 const InstallPage: React.FC = (props) => {
   return (
-    <div className="w-100 leading-12 flex flex-col justify-center items-center h-full p-16">
+    <div className="main-container first-letter:leading-12 flex flex-col justify-center items-center h-full">
       <div className="px-2 flex flex-col justify-center leading-loose">
-        <p className="text-3xl font-bold text-center mb-8">海豚导单使用教程</p>
+        <p className="text-3xl font-bold text-center my-8">海豚导单使用教程</p>
         <p></p>
         <p>
           若插件还没安装，详见{" "}
