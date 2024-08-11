@@ -7,7 +7,6 @@ import { ColumnsType } from "antd/es/table";
 import Input from "antd/es/input/Input";
 import _ from "lodash";
 import { useRouter } from "next/navigation";
-import { set } from "mongoose";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
