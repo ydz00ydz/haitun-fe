@@ -120,15 +120,13 @@ const AdminPage: React.FC = (props) => {
 
   return (
     <div className="ydz-container">
-      {authenticating ? (
+      {authenticating && (
         <>
           <Row>
             <Input placeholder="Search phone" onChange={(e) => debouncedHandleSearch(e.target.value)} />
           </Row>
           <Table loading={isLoading} dataSource={filteredData} columns={columns} pagination={false} rowKey={(record) => record.id} />
         </>
-      ) : (
-        <div>404</div>
       )}
       <Modal
         className="flex-row"
