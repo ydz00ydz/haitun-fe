@@ -38,7 +38,7 @@ interface UserListResponse {
 
 const AdminPage: React.FC = (props) => {
   const [authenticating, setAuthenticating] = useState(false);
-  const { data, isLoading, error } = useSWR<UserListResponse>("http://haitun.kd99.xyz/api/app/haitun/user/personList", fetcher);
+  const { data, isLoading, error } = useSWR<UserListResponse>("https://haitun.kd99.xyz/api/app/haitun/user/personList", fetcher);
   const [searchText, setSearchText] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
