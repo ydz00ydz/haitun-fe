@@ -1,7 +1,7 @@
 import React, { lazy, Suspense } from "react";
 import "./index.css";
 
-const InstallPage: React.FC = (props) => {
+const TutorialPage: React.FC = (props) => {
   return (
     <div className="main-container first-letter:leading-12 flex flex-col justify-center items-center h-full">
       <div className="px-2 flex flex-col justify-center leading-loose">
@@ -32,4 +32,4 @@ const InstallPage: React.FC = (props) => {
   );
 };
 
-export default InstallPage;
+export default TutorialPage;
