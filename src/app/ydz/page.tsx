@@ -1,12 +1,13 @@
 "use client";
 import React, { lazy, Suspense, useEffect, useState } from "react";
 import "./index.css";
-import { Button, Modal, Row, Space, Table } from "antd";
+import { Button, Col, message, Modal, Row, Space, Table } from "antd";
 import useSWR from "swr";
 import { ColumnsType } from "antd/es/table";
 import Input from "antd/es/input/Input";
 import _ from "lodash";
 import { useRouter } from "next/navigation";
+import { ReloadOutlined } from "@ant-design/icons";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
@@ -38,7 +39,10 @@ interface UserListResponse {
 
 const AdminPage: React.FC = (props) => {
   const [authenticating, setAuthenticating] = useState(false);
-  const { data, isLoading, error } = useSWR<UserListResponse>("https://haitun.kd99.xyz/api/app/haitun/user/personList", fetcher);
+  const { data, isLoading, error, mutate } = useSWR<UserListResponse>("https://haitun.kd99.xyz/api/app/haitun/user/personList", fetcher, {
+    revalidateOnFocus: false, // Disable automatic revalidation on focus
+    revalidateOnReconnect: false, // Disable automatic revalidation on reconnect
+  });
   const [searchText, setSearchText] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
@@ -63,12 +67,32 @@ const AdminPage: React.FC = (props) => {
     setModalVisible(false);
   };
 
-  const handleOperation = (operation: string) => {
-    if (selectedUser) {
-      // Perform API request based on operation
-      console.log(`Performing ${operation} for user ${selectedUser.username}`);
-      // Add your API call here
-    }
+  const handleRefresh = () => {
+    console.log("refresh");
+    mutate();
+  };
+
+  const handleOperation = (subsDay: number) => {
+    fetch("https://haitun.kd99.xyz/api/app/haitun/user/addSubstime", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        key: "pmCBHYGLmVyV",
+        username: selectedUser?.username,
+        days: subsDay,
+      }),
+    }).then(async (res) => {
+      const resJson = await res.json();
+      if (resJson.code === 1000) {
+        message.success("操作成功");
+        setModalVisible(false);
+        mutate();
+      } else {
+        message.error(resJson.message);
+      }
+    });
   };
 
   const columns: ColumnsType<User> = [
@@ -122,8 +146,13 @@ const AdminPage: React.FC = (props) => {
     <div className="ydz-container">
       {authenticating && (
         <>
-          <Row>
-            <Input placeholder="Search phone" onChange={(e) => debouncedHandleSearch(e.target.value)} />
+          <Row gutter={16} justify="space-between" align="middle">
+            <Col span={8}>
+              <Input placeholder="Search phone" onChange={(e) => debouncedHandleSearch(e.target.value)} />
+            </Col>
+            <Col span={4} style={{ textAlign: "right" }}>
+              <Button type="primary" icon={<ReloadOutlined />} onClick={handleRefresh} />
+            </Col>
           </Row>
           <Table loading={isLoading} dataSource={filteredData} columns={columns} pagination={false} rowKey={(record) => record.id} />
         </>
@@ -135,16 +164,16 @@ const AdminPage: React.FC = (props) => {
         onCancel={handleCancel}
         footer={[
           <div className="flex flex-row justify-around">
-            <Button type={"primary"} danger={true} key="disable" onClick={() => handleOperation("disable")}>
+            <Button type={"primary"} danger={true} key="disable" onClick={() => handleOperation(-1)}>
               停用
             </Button>
-            <Button type={"primary"} key="subscribe31" onClick={() => handleOperation("subscribe31")}>
+            <Button type={"primary"} key="subscribe31" onClick={() => handleOperation(31)}>
               订阅31天
             </Button>
-            <Button type={"primary"} key="subscribe92" onClick={() => handleOperation("subscribe92")}>
+            <Button type={"primary"} key="subscribe92" onClick={() => handleOperation(92)}>
               订阅92天
             </Button>
-            <Button type={"primary"} key="subscribe365" onClick={() => handleOperation("subscribe365")}>
+            <Button type={"primary"} key="subscribe365" onClick={() => handleOperation(365)}>
               订阅365天
             </Button>
           </div>,
