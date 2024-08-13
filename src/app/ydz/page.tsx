@@ -39,7 +39,7 @@ interface UserListResponse {
 
 const AdminPage: React.FC = (props) => {
   const [authenticating, setAuthenticating] = useState(false);
-  const { data, isLoading, error, mutate } = useSWR<UserListResponse>("https://haitun.kd99.xyz/api/app/haitun/user/personList", fetcher, {
+  const { data, isLoading, isValidating, error, mutate } = useSWR<UserListResponse>("https://haitun.kd99.xyz/api/app/haitun/user/personList", fetcher, {
     revalidateOnFocus: false, // Disable automatic revalidation on focus
     revalidateOnReconnect: false, // Disable automatic revalidation on reconnect
   });
@@ -154,7 +154,7 @@ const AdminPage: React.FC = (props) => {
               <Button type="primary" icon={<ReloadOutlined />} onClick={handleRefresh} />
             </Col>
           </Row>
-          <Table loading={isLoading} dataSource={filteredData} columns={columns} pagination={false} rowKey={(record) => record.id} />
+          <Table loading={isValidating} dataSource={filteredData} columns={columns} pagination={false} rowKey={(record) => record.id} />
         </>
       )}
       <Modal
