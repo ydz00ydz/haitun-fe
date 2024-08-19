@@ -5,7 +5,7 @@ export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center p-4">
       <h3 className="text-3xl font-bold p-4">海豚电商工具</h3>
-      <div className="w-100 leading-12 text-lg my-8" >
+      <div className="leading-12 text-lg my-8 w-full p-2 sm:w-2/3 sm:p-10" >
         <p className="mt-4">🎉 <span className="font-bold">海豚导单</span>-拼多多商家自发货必备的效率工具，<del>自动批量解锁</del>导出订单。</p>
         <p className="mt-4">海豚导单是一个浏览器插件，可以将商家后台你看到的代发货订单信息导出成csv表格，<b>它的主要作用是一键导出订单</b>，相比您自己手动复制订单节省了大量时间。</p>
         <p className="mt-4">目前插件只能导出单页订单，多页订单需要手动翻页再导出。</p>
