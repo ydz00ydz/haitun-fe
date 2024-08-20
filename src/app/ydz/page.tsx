@@ -40,8 +40,8 @@ interface UserListResponse {
   };
 }
 
-// const host = "https://haitun.kd99.xyz/api";
-const host = "http://localhost:7001";
+const host = "https://haitun.kd99.xyz/api";
+// const host = "http://localhost:7001";
 
 const AdminPage: React.FC = (props) => {
   const [authenticating, setAuthenticating] = useState(false);
