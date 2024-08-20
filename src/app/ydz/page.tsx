@@ -1,7 +1,7 @@
 "use client";
-import React, { lazy, Suspense, useEffect, useState } from "react";
+import React, { lazy, Suspense, use, useCallback, useEffect, useState } from "react";
 import "./index.css";
-import { Button, Col, message, Modal, Row, Space, Table } from "antd";
+import { Button, Col, Form, message, Modal, Row, Space, Table } from "antd";
 import useSWR from "swr";
 import { ColumnsType } from "antd/es/table";
 import Input from "antd/es/input/Input";
@@ -34,25 +34,43 @@ interface User {
 interface UserListResponse {
   code: number;
   message: string;
-  data: User[];
+  data: {
+    personList: User[];
+    version: string;
+  };
 }
+
+// const host = "https://haitun.kd99.xyz/api";
+const host = "http://localhost:7001";
 
 const AdminPage: React.FC = (props) => {
   const [authenticating, setAuthenticating] = useState(false);
-  const { data, isLoading, isValidating, error, mutate } = useSWR<UserListResponse>("https://haitun.kd99.xyz/api/app/haitun/user/personList", fetcher, {
+  const { data, isLoading, isValidating, error, mutate } = useSWR<UserListResponse>(`${host}/app/haitun/user/adminConf`, fetcher, {
     revalidateOnFocus: false, // Disable automatic revalidation on focus
     revalidateOnReconnect: false, // Disable automatic revalidation on reconnect
   });
+  const [filteredData, setFilteredData] = useState<User[]>([]);
   const [searchText, setSearchText] = useState("");
+  const [version, setVersion] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const router = useRouter();
+
+  const [form] = Form.useForm();
 
   const debouncedHandleSearch = _.debounce((value: string) => {
     setSearchText(value);
   }, 300);
 
-  const filteredData = data?.data.filter((user) => user.phone.includes(searchText)) || [];
+  // 根据搜索词筛选数据，设置版本号
+  useEffect(() => {
+    setFilteredData(data?.data?.personList?.filter((user) => user.phone.includes(searchText)) || []);
+    setVersion(data?.data?.version || "1.0.0");
+  }, [data]);
+
+  useEffect(() => {
+    form.setFieldsValue({ version });
+  }, [version]);
 
   const showModal = (user: User) => {
     setSelectedUser(user);
@@ -72,8 +90,9 @@ const AdminPage: React.FC = (props) => {
     mutate();
   };
 
+  // 会员操作 停用、订阅等
   const handleOperation = (subsDay: number) => {
-    fetch("https://haitun.kd99.xyz/api/app/haitun/user/addSubstime", {
+    fetch(`${host}/app/haitun/user/addSubstime`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -95,6 +114,37 @@ const AdminPage: React.FC = (props) => {
     });
   };
 
+  // 校验路由key
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const key = urlParams.get("key");
+    if (key === "ydzadmin") {
+      setAuthenticating(true);
+    }
+  }, []);
+
+  // 提交表单
+  const onFormSubmit = useCallback((values: any) => {
+    fetch(`${host}/app/haitun/user/setConf`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        key: "pmCBHYGLmVyV",
+        ck: "version",
+        cv: form.getFieldValue("version"),
+      }),
+    }).then(async (res) => {
+      const resJson = await res.json();
+      if (resJson.code === 1000) {
+        message.success("提交成功");
+      } else {
+        message.error(resJson.message);
+      }
+    });
+  }, []);
+
   const columns: ColumnsType<User> = [
     {
       title: "Username",
@@ -108,6 +158,8 @@ const AdminPage: React.FC = (props) => {
       sorter: (a, b) => new Date(a.updateTime).getTime() - new Date(b.updateTime).getTime(),
       render: (text) => text && new Date(text).toLocaleString(),
       showSorterTooltip: false,
+      sortDirections: ["ascend", "descend"],
+      defaultSortOrder: "descend",
     },
     {
       title: "Expired Time",
@@ -134,18 +186,22 @@ const AdminPage: React.FC = (props) => {
     },
   ];
 
-  useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const key = urlParams.get("key");
-    if (key === "ydzadmin") {
-      setAuthenticating(true);
-    }
-  }, []);
-
   return (
     <div className="ydz-container">
       {authenticating && (
         <>
+          <Row>
+            <Form form={form} name="basic" onFinish={onFormSubmit}>
+              <Form.Item name="version">
+                <Input placeholder="版本" />
+              </Form.Item>
+              <Form.Item>
+                <Button type="primary" htmlType="submit">
+                  提交
+                </Button>
+              </Form.Item>
+            </Form>
+          </Row>
           <Row gutter={16} justify="space-between" align="middle">
             <Col span={8}>
               <Input placeholder="Search phone" onChange={(e) => debouncedHandleSearch(e.target.value)} />
