@@ -56,7 +56,7 @@ const AdminPage: React.FC = (props) => {
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const router = useRouter();
 
-  const [form] = Form.useForm();
+  const [settingForm] = Form.useForm();
 
   const debouncedHandleSearch = _.debounce((value: string) => {
     setSearchText(value);
@@ -64,12 +64,15 @@ const AdminPage: React.FC = (props) => {
 
   // 根据搜索词筛选数据，设置版本号
   useEffect(() => {
-    setFilteredData(data?.data?.personList?.filter((user) => user.phone.includes(searchText)) || []);
-    setVersion(data?.data?.version || "1.0.0");
-  }, [data]);
+    if (data?.data?.personList) {
+      const filtered = data.data.personList.filter((user) => user.phone.includes(searchText));
+      setFilteredData(filtered.sort((a, b) => new Date(b.createTime).getTime() - new Date(a.createTime).getTime()));
+      setVersion(data.data.version || "1.0.0");
+    }
+  }, [data, searchText]);
 
   useEffect(() => {
-    form.setFieldsValue({ version });
+    settingForm.setFieldsValue({ version });
   }, [version]);
 
   const showModal = (user: User) => {
@@ -133,7 +136,7 @@ const AdminPage: React.FC = (props) => {
       body: JSON.stringify({
         key: "pmCBHYGLmVyV",
         ck: "version",
-        cv: form.getFieldValue("version"),
+        cv: settingForm.getFieldValue("version"),
       }),
     }).then(async (res) => {
       const resJson = await res.json();
@@ -158,8 +161,6 @@ const AdminPage: React.FC = (props) => {
       sorter: (a, b) => new Date(a.updateTime).getTime() - new Date(b.updateTime).getTime(),
       render: (text) => text && new Date(text).toLocaleString(),
       showSorterTooltip: false,
-      sortDirections: ["ascend", "descend"],
-      defaultSortOrder: "descend",
     },
     {
       title: "Expired Time",
@@ -171,9 +172,15 @@ const AdminPage: React.FC = (props) => {
     {
       title: "Create Time",
       dataIndex: "createTime",
-      sorter: (a, b) => new Date(a.createTime).getTime() - new Date(b.createTime).getTime(),
+      sorter: (a, b) =>
+        {
+          const res = new Date(a.createTime).getTime() - new Date(b.createTime).getTime();
+          console.log('sorter',res);
+          return  res},
       render: (text) => text && new Date(text).toLocaleString(),
       showSorterTooltip: false,
+      sortDirections: ["ascend", "descend"],
+      defaultSortOrder: "descend",
     },
     {
       title: "Operation",
@@ -191,7 +198,7 @@ const AdminPage: React.FC = (props) => {
       {authenticating && (
         <>
           <Row>
-            <Form form={form} name="basic" onFinish={onFormSubmit}>
+            <Form form={settingForm} name="basic" onFinish={onFormSubmit}>
               <Form.Item name="version">
                 <Input placeholder="版本" />
               </Form.Item>
@@ -210,7 +217,7 @@ const AdminPage: React.FC = (props) => {
               <Button type="primary" icon={<ReloadOutlined />} onClick={handleRefresh} />
             </Col>
           </Row>
-          <Table loading={isValidating} dataSource={filteredData} columns={columns} pagination={false} rowKey={(record) => record.id} />
+          <Table loading={isValidating} dataSource={filteredData} columns={columns} pagination={false} rowKey={'id'} />
         </>
       )}
       <Modal
