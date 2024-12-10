@@ -25,6 +25,9 @@ export default function Home() {
       <div className="leading-12 text-sm my-1 w-full p-2 sm:w-2/3 sm:p-10">
         <ul>
           <li>
+            <p className="mt-4 font-bold">V1.1.1 - 增加重置密码功能 - 2024.12.10</p>
+          </li>
+          <li>
             <p className="mt-4 font-bold">V1.0.9 - 根据官方更新升级导出规则，修复部分无法导出的问题 - 2024.09.27</p>
           </li>
         </ul>
